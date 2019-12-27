@@ -1,0 +1,81 @@
+Release note :
+
+[v1.8.4]
+- Nouvelles fonctionnalités & Améliorations
+	- Interface d'ajout de catégories et sous-catégories : refonte de la liste
+- Correctifs 
+	- Interface de consultation des catégories : correction d'un bug qui empêchait la suppression des sous-catégories
+	
+[v1.8.3]
+- Nouvelles fonctionnalités & Améliorations
+	- Interfaces de visualisation de la répartition des dépenses : ajout du rebond vers les transactions correspondantes
+	- Interface de recherche d'anciennes transactions : le focus par défaut est désormais placé sur la liste des comptes
+	- Interface de recherche d'anciennes transactions : Modification d'icônes  
+	- Modification graphiques mineures
+- Correctifs 
+	- Refonte de la gestion du MenuContext : correction des écrans pré-remplis à tort
+	- Interfaces de visualisation de la répartition des dépenses : Correction des couleurs des bordures de certaines tooltips
+
+[v1.8.2]
+- Correction sur affichage de données non pertinentes dans l'interface de recherche d'anciennes transactions
+
+[v1.8.1]
+- Ajout de l'interface d'édition d'anciennes transactions
+- Correction de l'autoscroll sur l'interface de classification des transactions
+
+[v1.8.0]
+- Ajout de l'interface de recherche et d'édition d'anciennes transactions
+
+[v1.7.1]
+- Rendre l'import OFX robuste aux fichiers Boursorama (qui formatte les nombres à l'anglaise)
+
+[v.1.7.0]
+- Correction de l'axe horizontal sur l'écran d'écrans d'évolution des dépenses par catégorie / sous-catégorie
+- Refonte de l'interface pour utiliser JFoenix
+- Ajout de la possibilité d'éditer d'un compte
+
+[v.1.6.1]
+- Rendre l'import OFX robuste en l'absence de sauts de ligne
+- Ajout du FITID comme identifiant de transaction pour la détection des doublons
+
+[v.1.6.0]
+- Ajout des écrans d'évolution des dépenses par catégorie / sous-catégorie
+
+[v.1.5.4]
+- Correctif détection numéro de chèque sur format OFC
+- Ajout d'un rebond depuis l'écran des statistiques : Catégorie => Sous-Catégorie
+
+[v.1.5.3]
+- Externalisation des traces applicatives
+- Ajout du thème "blue"
+- Correctif liste déroulante de sélection du compte tronquée sur certains écrans
+- Initialisation des statistiques sur la période la plus récente contenant des données
+
+[v.1.5.2]
+- Correctif de calcul du début/fin de période
+
+[v1.5]
+- Ajout d'un tableau de bord
+- Correctif gestion de l'encoding des fichiers importés
+
+[v1.4]
+ - Ajout utilitaire de migration sécurisé
+ - Ajout des devises par compte
+
+[v1.3]
+- Suppression de la scrollbar horizontale sur l'IHM de création de règles
+- Correctif graphique pour les listes : centrer le bouton "Supprimer"
+- Ajout d'un filtre possible sur la catégorie dans les statistiques des sous-catégories
+
+[v1.2]
+- Trier les parts de camembert par ordre alphabétique
+- Support des fichiers de type OFX
+- Correction arrondis sur les tooltip des camemberts
+- Déplacement du bouton Appliquer les règles sur l'écran de classification
+
+[v1.1]
+- Ajout légende au survol d'un camembert
+- Ajout de l'édition et de la suppression des données hors Transaction/Account
+- Correction bug de données sur l'affichage de l'équilibre des comptes
+- Faciliter la création des règles de classement
+- Signaler dans le menu la modification du nombre de transactions à classer

@@ -1,0 +1,462 @@
+### Eclipse Workspace Patch 1.0
+#P AccountManagerFX
+Index: src/scripts/V1_5_4_1__Add_Budget.sql
+===================================================================
+--- src/scripts/V1_5_4_1__Add_Budget.sql	(revision 0)
++++ src/scripts/V1_5_4_1__Add_Budget.sql	(working copy)
+@@ -0,0 +1 @@
++ALTER TABLE `ACCOUNT` ADD COLUMN BUDGET;
+\ No newline at end of file
+Index: src/fr/coward/main/ui/navigate/visualisation/CategoryStatisticsController.java
+===================================================================
+--- src/fr/coward/main/ui/navigate/visualisation/CategoryStatisticsController.java	(revision 48)
++++ src/fr/coward/main/ui/navigate/visualisation/CategoryStatisticsController.java	(working copy)
+@@ -21,6 +21,7 @@
+ import javafx.fxml.Initializable;
+ import javafx.scene.chart.PieChart;
+ import javafx.scene.chart.PieChart.Data;
++import javafx.scene.control.CheckBox;
+ import javafx.scene.control.ComboBox;
+ import javafx.scene.control.ContextMenu;
+ import javafx.scene.control.MenuItem;
+@@ -45,6 +46,8 @@
+ 	private ComboBox<Account> accountComboBox;
+ 	@FXML
+ 	private PieChart categoryPieChart;
++	@FXML
++	private CheckBox ignoreBudgetCheckBox;
+ 	
+ 	@FXML
+ 	private PeriodSelector periodSelector;
+@@ -106,6 +109,8 @@
+ 		
+ 		Account account = AccountService.findById(accountComboBox.getSelectionModel().getSelectedItem().getId());
+ 		
++		ignoreBudgetCheckBox.setVisible(0.0 != account.getBudget());
++		
+ 		currency = Currency.getInstance(account.getCurrency());
+ 		
+ 		populateCategoryPieChart();
+@@ -117,6 +122,9 @@
+ 	 */
+ 	private void populateCategoryPieChart(){
+ 		
++		boolean isBudgetEnabled = ignoreBudgetCheckBox.isVisible() && !ignoreBudgetCheckBox.isArmed();
++		BigDecimal budget = new BigDecimal(accountComboBox.getSelectionModel().getSelectedItem().getBudget());
++		
+ 		Map<Category, BigDecimal> repartitionTransactionParCategory = new TreeMap<>();
+ 		BigDecimal totalPieAmount = BigDecimal.ZERO;
+ 		for(Transaction transaction : classifiedTransactions){
+@@ -132,12 +140,30 @@
+ 			totalPieAmount = totalPieAmount.add(amount);
+ 		}
+ 		
++		BigDecimal savingsAmount = BigDecimal.ZERO;
++		BigDecimal overExpensesAmount = BigDecimal.ZERO;
++		if(isBudgetEnabled){
++			// Si le budget est sup�rieur aux d�penses, mat�rialiser l'�conomie par une cat�gorie fictive
++			if(totalPieAmount.compareTo(budget) == -1){
++				savingsAmount = budget.subtract(totalPieAmount);
++				totalPieAmount = budget;
++				repartitionTransactionParCategory.put(new Category("Economies"), savingsAmount);
++			}
++			// Si le budget est inf�rieur aux d�penses
++			else if(totalPieAmount.compareTo(budget) == 1) overExpensesAmount = totalPieAmount.subtract(budget);
++		}
++		
+ 		ObservableList<Data> pieChartData = FXCollections.observableArrayList();
+ 		reversePieChartMap = new HashMap<PieChart.Data, Category>();
+ 		for(Category category : repartitionTransactionParCategory.keySet()){
+ 			
+ 			BigDecimal categorieAmount = repartitionTransactionParCategory.get(category).setScale(3, RoundingMode.HALF_UP);
+-			BigDecimal categoriePercentage = categorieAmount.divide(totalPieAmount, 3, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
++			BigDecimal categoriePercentage;
++			if(isBudgetEnabled){
++				categoriePercentage = categorieAmount.divide(budget, 3, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
++			} else {
++				categoriePercentage = categorieAmount.divide(totalPieAmount, 3, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
++			}
+ 			Data data = new Data(category.toString() + " (" + categoriePercentage.doubleValue() + "%)", categorieAmount.doubleValue());
+ 			
+ 			pieChartData.add(data);
+Index: src/fr/coward/main/ui/navigate/alimentation/CreateAccountController.java
+===================================================================
+--- src/fr/coward/main/ui/navigate/alimentation/CreateAccountController.java	(revision 27)
++++ src/fr/coward/main/ui/navigate/alimentation/CreateAccountController.java	(working copy)
+@@ -14,8 +14,10 @@
+ import javafx.scene.control.ComboBox;
+ import javafx.scene.control.ListView;
+ import javafx.scene.control.TextField;
++import javafx.scene.input.MouseEvent;
+ import fr.coward.main.model.Account;
+ import fr.coward.main.model.services.AccountService;
++import fr.coward.main.ui.components.NumericField;
+ import fr.coward.main.ui.navigate.CreateFormController;
+ import fr.coward.main.ui.utils.StringUtil;
+ 
+@@ -24,6 +26,8 @@
+ 	@FXML
+ 	private TextField accountLabelTextField;
+ 	@FXML
++	private NumericField accountBudgetNumericField;
++	@FXML
+ 	private ComboBox<String> accountCurrencyComboBox;
+ 	@FXML
+ 	private ListView<Account> accountList;
+@@ -62,6 +66,35 @@
+ 		}
+ 		accountList.setItems(items);
+ 	}
++	
++	/**
++	 * Sur la s�lection d'un compte existant, alimenter le formulaire avec les donn�es du compte
++	 * Cela permet une modification de la donn�e
++	 * @param event
++	 */
++	public void accountList_onClickHandler(MouseEvent event){
++		this.initFormFor(accountList.getSelectionModel().getSelectedItem());
++	}	
++	
++	/**
++	 * Initialise le formulaire � partir du compte
++	 * @param compte le compte
++	 */
++	private void initFormFor(Account account){
++		
++		if(null != account){
++			
++			this.accountLabelTextField.setText(account.getLabel());
++			
++			this.accountCurrencyComboBox.getSelectionModel().select(account.getCurrency());
++			
++			this.accountBudgetNumericField.setText(String.valueOf(account.getBudget()));
++			
++			
++		} else {
++			initComponents(false);
++		}
++	}
+ 
+ 
+ 	@Override
+@@ -78,6 +111,9 @@
+ 		
+ 		accountCurrencyComboBox.setItems(items);
+ 		
++		
++		accountBudgetNumericField.textProperty().setValue("");
++		
+ 		focus(accountLabelTextField);
+ 		
+ 		refreshList();
+@@ -93,6 +129,12 @@
+ 		if(accountCurrencyComboBox.getSelectionModel().getSelectedItem() == null){
+ 			throw new Exception("Veuillez selectionner la devise du compte.");
+ 		}
++		if(!StringUtil.isNotNullNotEmpty(accountBudgetNumericField.getText())){
++			if(!accountBudgetNumericField.isValid()){
++				throw new Exception("Budget invalide.");
++			}	
++		}
++		
+ 	}
+ 
+ 	@Override
+@@ -101,16 +143,26 @@
+ 		String accountLabel = accountLabelTextField.textProperty().getValue().trim();
+ 		
+ 		String accountCurrency = accountCurrencyComboBox.getSelectionModel().getSelectedItem();
+-
++		
++		double budgetValue = accountBudgetNumericField.getDouble();
++		
+ 		Account newAccount = new Account(accountLabel, accountCurrency);
++		newAccount.setBudget(budgetValue);
++		
++		if(null != accountList && null != accountList.getSelectionModel() && null != accountList.getSelectionModel().getSelectedItem()){
++			newAccount.setId(accountList.getSelectionModel().getSelectedItem().getId());
++		}
++		
+ 		AccountService.save(newAccount);
+ 		
++		initComponents(false);
++		
+ 		// Si compte ajout�
+-		if(newAccount.getId() != 0){
+-			
+-			initComponents(false);
+-		} else {
+-			throw new Exception("Un compte existe d�j� pour ce libell�. Veuillez saisir un autre libell�.");
+-		}
++//		if(newAccount.getId() != 0){
++//			
++//			initComponents(false);
++//		} else {
++//			throw new Exception("Un compte existe d�j� pour ce libell�. Veuillez saisir un autre libell�.");
++//		}
+ 	}
+ }
+Index: src/fr/coward/main/model/services/AccountService.java
+===================================================================
+--- src/fr/coward/main/model/services/AccountService.java	(revision 26)
++++ src/fr/coward/main/model/services/AccountService.java	(working copy)
+@@ -18,6 +18,7 @@
+ 	
+ 	public static final String COLUMN_ID = "`ID`";
+ 	public static final String COLUMN_LABEL = "`LABEL`";
++	public static final String COLUMN_BUDGET = "`BUDGET`";
+ 	public static final String COLUMN_CURRENCY = "`CURRENCY`";
+ 	
+ 	public static Account findById(int accountId){
+@@ -30,7 +31,7 @@
+ 		
+ 		try{
+ 			
+-			String selectQuery = "SELECT " + COLUMN_ID + "," + COLUMN_LABEL + "," + COLUMN_CURRENCY + " FROM " + TABLE + " WHERE " + COLUMN_ID + " =?;";
++			String selectQuery = "SELECT " + COLUMN_ID + "," + COLUMN_LABEL + "," + COLUMN_BUDGET + "," + COLUMN_CURRENCY + " FROM " + TABLE + " WHERE " + COLUMN_ID + " =?;";
+ 			statement = connection.prepareStatement(selectQuery);
+ 			
+ 			statement.setInt(1, accountId);
+@@ -41,10 +42,12 @@
+ 				
+ 				int id = rs.getInt(1);
+ 				String label = rs.getString(2);
+-				String currency = rs.getString(3);
++				double budget = rs.getDouble(3);
++				String currency = rs.getString(4);
+ 				
+ 				account = new Account(label, currency);
+ 				account.setId(id);
++				account.setBudget(budget);
+ 			}
+ 		} 
+ 		catch(Exception e){
+@@ -67,7 +70,7 @@
+ 		
+ 		try{
+ 			
+-			String updateQuery = "SELECT " + COLUMN_ID + "," + COLUMN_LABEL + "," + COLUMN_CURRENCY + " FROM " + TABLE + " ORDER BY " + COLUMN_LABEL + " ASC;";
++			String updateQuery = "SELECT " + COLUMN_ID + "," + COLUMN_LABEL + "," + COLUMN_BUDGET + ","  + COLUMN_CURRENCY + " FROM " + TABLE + " ORDER BY " + COLUMN_LABEL + " ASC;";
+ 			statement = connection.prepareStatement(updateQuery);
+ 
+ 			rs = statement.executeQuery();
+@@ -76,10 +79,12 @@
+ 				
+ 				int id = rs.getInt(1);
+ 				String label = rs.getString(2);
+-				String currency = rs.getString(3);
++				double budget = rs.getDouble(3);
++				String currency = rs.getString(4);
+ 				
+ 				Account account = new Account(label, currency);
+ 				account.setId(id);
++				account.setBudget(budget);
+ 				
+ 				accountList.add(account);
+ 			}
+@@ -117,12 +122,13 @@
+ 		
+ 		try{
+ 			
+-			String insertQuery = "INSERT INTO " + TABLE + " (" + COLUMN_LABEL + "," + COLUMN_CURRENCY + ") SELECT ?,? WHERE NOT EXISTS (SELECT 0 FROM " + TABLE + " WHERE LABEL=?)";
++			String insertQuery = "INSERT INTO " + TABLE + " (" + COLUMN_LABEL + "," + COLUMN_BUDGET + "," + COLUMN_CURRENCY + ") SELECT ?,?,? WHERE NOT EXISTS (SELECT 0 FROM " + TABLE + " WHERE LABEL=?)";
+ 			statement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
+ 			
+ 			statement.setString(1, account.getLabel());
+-			statement.setString(2, account.getCurrency());
+-			statement.setString(3, account.getLabel());
++			statement.setDouble(2, account.getBudget());
++			statement.setString(3, account.getCurrency());
++			statement.setString(4, account.getLabel());
+ 			
+ 			statement.executeUpdate();
+ 			
+@@ -150,12 +156,13 @@
+ 		
+ 		try{
+ 			
+-			String updateQuery = "UPDATE " + TABLE + " SET " + COLUMN_LABEL + "=?," + COLUMN_CURRENCY + "=? WHERE " + COLUMN_ID + "=?";
++			String updateQuery = "UPDATE " + TABLE + " SET " + COLUMN_LABEL + "=?," + COLUMN_BUDGET + "=?," + COLUMN_CURRENCY + "=? WHERE " + COLUMN_ID + "=?";
+ 			statement = connection.prepareStatement(updateQuery);
+ 			
+ 			statement.setString(1, account.getLabel());
+-			statement.setString(2, account.getCurrency());
+-			statement.setInt(3, account.getId());
++			statement.setDouble(2, account.getBudget());
++			statement.setString(3, account.getCurrency());
++			statement.setInt(4, account.getId());
+ 			
+ 			statement.executeUpdate();
+ 		} 
+Index: src/fr/coward/main/ui/navigate/configuration/Settings.fxml
+===================================================================
+--- src/fr/coward/main/ui/navigate/configuration/Settings.fxml	(revision 45)
++++ src/fr/coward/main/ui/navigate/configuration/Settings.fxml	(working copy)
+@@ -27,8 +27,8 @@
+ 						<Font name="System Bold" size="14.0" />
+ 					</font>
+ 				</Label>
+-				<ComboBox fx:id="themeComboBox" prefHeight="25.0"  />
+-
++				<ComboBox fx:id="themeComboBox" prefHeight="25.0" >
++				</ComboBox>
+ 			</children>
+ 		</HBox>
+ 		
+Index: src/fr/coward/main/ui/navigate/visualisation/BalanceStatisticsController.java
+===================================================================
+--- src/fr/coward/main/ui/navigate/visualisation/BalanceStatisticsController.java	(revision 37)
++++ src/fr/coward/main/ui/navigate/visualisation/BalanceStatisticsController.java	(working copy)
+@@ -98,6 +98,8 @@
+ 	 */
+ 	private void populateChart(){
+ 		
++		boolean isBudgetDefined = 0.0 != accountComboBox.getSelectionModel().getSelectedItem().getBudget();
++		
+ 		ObservableList<Series<String, Double>> lineChartData = FXCollections.observableArrayList();
+ 		
+ 		XYChart.Series<String, Double> expenses = new XYChart.Series<String, Double>();
+@@ -109,10 +111,15 @@
+ 		XYChart.Series<String, Double> savings = new XYChart.Series<String, Double>();
+ 		savings.setName("Economies");
+ 		
++		XYChart.Series<String, Double> budgets = new XYChart.Series<String, Double>();
++		if (isBudgetDefined) budgets.setName("Budget");
++		
++		
+ 		for(Month month : Month.values()){
+ 			expenses.getData().add(new XYChart.Data<String, Double>(month.getDisplayName(TextStyle.FULL, Locale.getDefault()), 0d));
+ 			incomes.getData().add(new XYChart.Data<String, Double>(month.getDisplayName(TextStyle.FULL, Locale.getDefault()), 0d));
+ 			savings.getData().add(new XYChart.Data<String, Double>(month.getDisplayName(TextStyle.FULL, Locale.getDefault()), 0d));
++			if (isBudgetDefined) budgets.getData().add(new XYChart.Data<String, Double>(month.getDisplayName(TextStyle.FULL, Locale.getDefault()), accountComboBox.getSelectionModel().getSelectedItem().getBudget()));
+ 		}
+ 		
+ 		for(Transaction transaction : transactions){
+@@ -156,6 +163,7 @@
+ 		lineChartData.add(expenses);
+ 		lineChartData.add(incomes);
+ 		lineChartData.add(savings);
++		if (isBudgetDefined) lineChartData.add(budgets);
+ 		
+ 		addHoveredValue(lineChartData);
+ 		balanceLineChart.setData(lineChartData);
+Index: src/fr/coward/main/model/Account.java
+===================================================================
+--- src/fr/coward/main/model/Account.java	(revision 27)
++++ src/fr/coward/main/model/Account.java	(working copy)
+@@ -7,6 +7,7 @@
+ 	private int id;
+ 	private String label;
+ 	private String currency;
++	private double budget;
+ 	private LinkedList<Transaction> transactions;
+ 	
+ 	public Account(){
+@@ -50,6 +51,19 @@
+ 	}
+ 	
+ 	/**
++	 * @return the long
++	 */
++	public double getBudget() {
++		return budget;
++	}
++	/**
++	 * @param id the budget to set
++	 */
++	public void setBudget(double budget) {
++		this.budget = budget;
++	}
++	
++	/**
+ 	 * @return the currency
+ 	 */
+ 	public String getCurrency() {
+Index: src/fr/coward/main/ui/navigate/alimentation/CreateAccount.fxml
+===================================================================
+--- src/fr/coward/main/ui/navigate/alimentation/CreateAccount.fxml	(revision 26)
++++ src/fr/coward/main/ui/navigate/alimentation/CreateAccount.fxml	(working copy)
+@@ -8,6 +8,7 @@
+ <?import javafx.scene.layout.GridPane?>
+ <?import javafx.collections.*?>
+ <?import javafx.scene.control.ComboBox?>
++<?import fr.coward.main.ui.components.NumericField?>
+ 
+ <GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.coward.main.ui.navigate.alimentation.CreateAccountController">
+    <rowConstraints>
+@@ -23,6 +24,7 @@
+    <columnConstraints>
+       <ColumnConstraints maxWidth="95.0" minWidth="10.0" />
+       <ColumnConstraints maxWidth="254.0" minWidth="10.0" prefWidth="252.0" />
++      <ColumnConstraints maxWidth="254.0" minWidth="10.0" prefWidth="252.0" />
+       <ColumnConstraints />
+       <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+@@ -34,7 +36,7 @@
+       </Label>
+       
+       <Label text="Libellé :" GridPane.rowIndex="1" />
+-      <TextField fx:id="accountLabelTextField" promptText="libellé" GridPane.columnIndex="1" GridPane.rowIndex="1">
++      <TextField fx:id="accountLabelTextField" promptText="Libellé" GridPane.columnIndex="1" GridPane.rowIndex="1">
+          <GridPane.margin>
+             <Insets left="5.0" />
+          </GridPane.margin>
+@@ -47,18 +49,27 @@
+          </GridPane.margin>
+       </ComboBox>
+       
+-      <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Enregistrer" GridPane.columnIndex="0" GridPane.rowIndex="3"
+-      		onAction="#saveButton_onActionHandler">
++      <Label text="Budget mensuel :" GridPane.rowIndex="3" />
++      <NumericField fx:id="accountBudgetNumericField"
++			promptText="Montant (optionnel)" GridPane.columnIndex="1" GridPane.rowIndex="3" >
++			<GridPane.margin>
++            <Insets left="5.0" />
++         </GridPane.margin>	
++	  </NumericField>
++      
++      <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Enregistrer" GridPane.columnIndex="0" GridPane.rowIndex="4"
++      		onAction="#saveButton_onActionHandler" >
+          <GridPane.margin>
+             <Insets left="5.0" />
+          </GridPane.margin></Button>
+-      <Label text="Comptes existants" GridPane.columnSpan="4" GridPane.rowIndex="5">
++      <Label text="Comptes existants" GridPane.columnSpan="4" GridPane.rowIndex="6">
+          <font>
+             <Font name="System Bold" size="14.0" />
+          </font>
+       </Label>
+-      <ListView fx:id="accountList" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS" />
+-      <Label fx:id="errorLabel" textFill="#8d0909" GridPane.columnSpan="4" GridPane.rowIndex="4" />
++      <ListView fx:id="accountList" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS" 
++      		onMouseClicked="#accountList_onClickHandler" />
++      <Label fx:id="errorLabel" textFill="#8d0909" GridPane.columnSpan="4" GridPane.rowIndex="6" />
+    </children>
+    <padding>
+       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+Index: src/fr/coward/main/ui/navigate/visualisation/CategoryStatistics.fxml
+===================================================================
+--- src/fr/coward/main/ui/navigate/visualisation/CategoryStatistics.fxml	(revision 3)
++++ src/fr/coward/main/ui/navigate/visualisation/CategoryStatistics.fxml	(working copy)
+@@ -11,6 +11,7 @@
+ <?import fr.coward.main.ui.components.PeriodSelector?>
+ <?import javafx.geometry.Insets?>
+ <?import javafx.scene.chart.PieChart?>
++<?import javafx.scene.control.CheckBox?>
+ 
+ <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+ 	fx:controller="fr.coward.main.ui.navigate.visualisation.CategoryStatisticsController">
+@@ -33,6 +34,13 @@
+ 						<Insets left="50" />
+ 					</HBox.margin>
+ 				</PeriodSelector>
++				
++				<CheckBox fx:id="ignoreBudgetCheckBox" text="Ignorer le budget" visible="false" >
++					<HBox.margin>
++						<Insets left="50" top="5" />
++					</HBox.margin>
++				</CheckBox>
++				
+ 			</children>
+ 		</HBox>
+ 
