@@ -1,0 +1,127 @@
+#contentBox {
+     -fx-background-image: url("../resources/background.jpg");
+     -fx-background-color: transparent;
+     /*-fx-background-color: WHITE;*/
+}
+
+/* Rendre les conteneurs légèrement transparent pour voir l'image de fond */
+ListView, #navigationBox,LineChart {
+	-fx-opacity: 0.8;
+	-fx-background-color: transparent;
+}
+
+.combo-box-popup .list-view{
+	-fx-opacity: 0.90;
+	-fx-background-color: transparent;
+}
+
+.popUp{
+	-fx-background-image: url("../resources/background.jpg");
+    -fx-background-color: transparent;
+}
+
+/* Opacifier le texte pour qu'il reste lisible */
+Label, Hyperlink {
+	-fx-opacity: 1;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,2 );
+}
+
+Hyperlink{
+	-fx-text-fill: #004C99;	
+}
+
+Hyperlink:visited{
+	-fx-text-fill: #004C99;
+}
+
+JFXButton{
+    /*-fx-background-color: rgb(0,128,255);*/
+    -fx-background-color: #004C99;
+    -fx-text-fill: WHITE;
+    -fx-background-insets: 0;
+}
+
+JFXButton:hover{
+	-fx-background-color: #191970;
+}
+
+.greenButton{
+	-fx-background-color: #008000;
+}
+
+.redButton{
+	-fx-background-color: #A52A2A;
+}
+
+JFXCheckBox{
+	-jfx-checked-color: GREEN;
+    -jfx-unchecked-color: RED;
+}
+
+JFXDatePicker{
+	-jfx-default-color : #004C99;
+}
+
+.cell-button{
+	/*-fx-background-color: rgb(204,153,255); en violet */
+	/*-fx-background-color: rgb(255,153,153); en rouge */
+	-fx-background-color: #A0A0A0;
+    -fx-text-fill: WHITE;
+}
+
+/*
+.combo-box-popup .list-view .list-cell:filled:selected 
+{
+    -fx-background-color: #4d90fe;
+    -fx-text-fill: white;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover 
+{
+    -fx-background-color: #4d90fe;
+    -fx-text-fill: white;
+}
+*/
+.combo-box-base  
+{
+    -fx-background-color: white, white, white, white;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-padding: 0;
+}
+
+.text-input {
+	-fx-background-radius: 0;	
+}
+
+/*.text-field {
+    -fx-background-color: #a9a9a9 , white , white;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+}
+
+.text-field:focused {
+    -fx-background-color: #a9a9a9 , white , white;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+}*/
+
+.text-field{
+	-fx-prompt-text-fill: #C0C0C0;
+	-fx-font-style: italic;
+	-fx-background-color: #a9a9a9 , white , white;
+	-fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+}
+
+.titled-pane {
+	-fx-text-fill: black;
+}
+
+
+.titled-pane > .title {
+	-fx-body-color : #D1F4FF;
+  	-fx-background-color: -fx-box-border, -fx-inner-border, -fx-body-color;
+  	-fx-background-radius: 0 0 0 0, 0 0 0 0, 0 0 0 0;
+  	-fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,0 );
+}
+
+.titled-pane > .title > .arrow-button .arrow {
+  -fx-background-color: black;
+}

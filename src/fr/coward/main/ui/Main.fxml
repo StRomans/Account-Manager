@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1208.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
+fx:controller="fr.coward.main.ui.navigate.NavigationManager">
+   <children>
+      <Pane fx:id="bannierePane" minHeight="92.0" prefHeight="92.0" prefWidth="1208.0" styleClass="bottom-line">
+         <children>
+            <ImageView fitWidth="1208.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                  <image>
+                     <Image url="@/fr/coward/main/resources/icons/banniere.jpg" />
+                  </image>
+            </ImageView>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Pane>
+      
+      <HBox fx:id="contentBox" prefHeight="732.0" prefWidth="1208.0">
+         <children>
+            <VBox fx:id="navigationBox" prefHeight="683.0" prefWidth="300.0">
+              <children>
+                <TitledPane animated="false" text="Alimentation">
+                  <content>
+                  	<GridPane>
+                  		<padding>
+                  			<Insets bottom="5" left="5" right="5" top="5" />
+                  		</padding>
+                     <children>
+                     		<!-- CREER COMPTE -->
+                     		<ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                 <image>
+                                    <Image url="@/fr/coward/main/resources/icons/account.png" />
+                                 </image>
+                           </ImageView>
+                           <Hyperlink fx:id="CreateAccount" text="Créer compte" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                           
+                           <!-- CREER TRANSACTION -->
+                           <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                             	<image>
+                                 	<Image url="@/fr/coward/main/resources/icons/transaction_add.png" />
+                               </image>
+                           </ImageView>
+                           <Hyperlink fx:id="CreateEntry" text="Ajouter entrée" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                           
+                           <!-- IMPORTER TRANSACTIONS -->
+                           <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                             	<image>
+                                 	<Image url="@/fr/coward/main/resources/icons/file_transactions.png" />
+                               </image>
+                           </ImageView>
+                           <Hyperlink fx:id="ImportFile" text="Importer fichier" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                           <columnConstraints>
+                              <ColumnConstraints />
+                              <ColumnConstraints />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+                  	</GridPane>
+                  </content>
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                </TitledPane>
+                <TitledPane animated="false" text="Classification">
+                  <content>
+	                  <GridPane>
+	                  		<padding>
+	                  			<Insets bottom="5" left="5" right="5" top="5" />
+	                  		</padding>
+   							<children>
+   	                  		
+   	                  		<!-- CREER CATEGORY -->
+   	                  		<ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
+   	                          	<image>
+   	                              	<Image url="@/fr/coward/main/resources/icons/category_add.png" />
+   	                            </image>
+   	                        </ImageView>
+   	                        <Hyperlink fx:id="CreateCategory" text="Définir catégorie" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+   	                        
+   	                        <!-- CREER SOUS CATEGORY -->
+   	                        <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
+   	                          	<image>
+   	                              	<Image url="@/fr/coward/main/resources/icons/sub_category_add.png" />
+   	                            </image>
+   	                        </ImageView>
+   	                        <Hyperlink fx:id="CreateSubCategory" text="Définir sous-catégorie" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+   	                        
+   	                        <!-- CLASSER -->
+   	                        <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2">
+   	                          	<image>
+   	                              	<Image url="@/fr/coward/main/resources/icons/classify.png" />
+   	                            </image>
+   	                        </ImageView>
+   	                        <Hyperlink fx:id="Classify" text="Classer les nouvelles entrées" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+   	                        
+   	                        <!-- EDITER CLASSIFICATION -->
+   	                        <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="3">
+   	                          	<image>
+   	                              	<Image url="@/fr/coward/main/resources/icons/classify_edit.png" />
+   	                            </image>
+   	                        </ImageView>
+   	                        <Hyperlink fx:id="UpdateClassification" text="Editer ancienne entrée" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+   	                        
+   	                        <!-- VOIR LES REGLES DE TRI AUTOMATIQUE -->
+   	                        <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="4">
+   	                          	<image>
+   	                              	<Image url="@/fr/coward/main/resources/icons/configure.png" />
+   	                            </image>
+   	                        </ImageView>
+   	                        <Hyperlink fx:id="ClassificationRules" text="Règles de classification" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+   							</children>
+                           <columnConstraints>
+                              <ColumnConstraints />
+                              <ColumnConstraints />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+	                  	</GridPane>
+
+                  </content>
+                  <font>
+                     <Font name="System Bold" size="16.0" />
+                  </font>
+                </TitledPane>
+                <TitledPane animated="false" text="Visualisation">
+                  <content>
+                    <GridPane>
+	                  		<padding>
+	                  			<Insets bottom="5" left="5" right="5" top="5" />
+	                  		</padding>
+   							<children>
+   	                  		
+   	                  		<!-- STATISTIQUES REPARTITION DES DEPENSES PAR CATEGORIE -->
+   	                  		<ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
+   	                          	<image>
+   	                              	<Image url="@/fr/coward/main/resources/icons/pie_chart.png" />
+   	                            </image>
+   	                        </ImageView>
+   	                        <Hyperlink fx:id="CategoryPercentageStatistics" text="Répartition par catégorie" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+   	                        
+   	                        <!-- STATISTIQUES REPARTITION DES DEPENSES PAR SOUS-CATEGORIE -->
+   	                        <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
+   	                          	<image>
+   	                              	<Image url="@/fr/coward/main/resources/icons/pie_chart.png" />
+   	                            </image>
+   	                        </ImageView>
+   	                        <Hyperlink fx:id="SubCategoryPercentageStatistics" text="Répartition par sous-catégorie" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+   	                        
+   	                        <!-- STATISTIQUES EVOLUTION DEPENSES PAR CATEGORIE -->
+   	                  		<ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2">
+   	                          	<image>
+   	                              	<Image url="@/fr/coward/main/resources/icons/line_chart.png" />
+   	                            </image>
+   	                        </ImageView>
+   	                        <Hyperlink fx:id="CategoryEvolutionStatistics" text="Evolution par catégorie" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+   	                        
+   	                        <!-- STATISTIQUES EVOLUTION DEPENSES PAR SOUS-CATEGORIE -->
+   	                  		<ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="3">
+   	                          	<image>
+   	                              	<Image url="@/fr/coward/main/resources/icons/line_chart.png" />
+   	                            </image>
+   	                        </ImageView>
+   	                        <Hyperlink fx:id="SubCategoryEvolutionStatistics" text="Evolution par sous-catégorie" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+   	                        
+   	                        <!-- STATISTIQUES EQUILIBRE DES COMPTES -->
+   	                        <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="4">
+   	                          	<image>
+   	                              	<Image url="@/fr/coward/main/resources/icons/coins.png" />
+   	                            </image>
+   	                        </ImageView>
+   	                        <Hyperlink fx:id="BalanceStatistics" text="Equilibre des comptes" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+   	                        
+   	                        <!-- TABLEAU DE BORD -->
+   	                        <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="5">
+   	                          	<image>
+   	                              	<Image url="@/fr/coward/main/resources/icons/dashboard.png" />
+   	                            </image>
+   	                        </ImageView>
+   	                        <Hyperlink fx:id="Dashboard" text="Tableau de bord" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+   	                        
+   							</children>
+                           <columnConstraints>
+                              <ColumnConstraints />
+                              <ColumnConstraints />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+	                  	</GridPane>
+                  </content>
+                  <font>
+                     <Font name="System Bold" size="16.0" />
+                  </font>
+                </TitledPane>
+                  <TitledPane animated="false" text="Configuration" expanded="true">
+                     <content>
+                     	<GridPane>
+	                  		<padding>
+	                  			<Insets bottom="5" left="5" right="5" top="5" />
+	                  		</padding>
+   							<children>
+   								<!-- PREFERENCES -->
+   								<ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
+	   	                          	<image>
+	   	                              	<Image url="@/fr/coward/main/resources/icons/settings.png" />
+	   	                            </image>
+	   	                        </ImageView>
+	   	                        <Hyperlink fx:id="Settings" text="Préférences" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+   							</children>
+   						</GridPane>
+                     </content>
+                     <font>
+                     <Font name="System Bold" size="16.0" />
+                  </font>
+                  </TitledPane>
+              </children>
+            </VBox>
+            <StackPane  fx:id="dynamicContentPane" prefHeight="622.0" prefWidth="1034.0">
+            	
+            </StackPane>
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.ComboBox?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import fr.coward.main.ui.components.DeletableTableView?>
+
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.coward.main.ui.navigate.classification.CreateSubCategoryController">
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints minWidth="10.0" />
+      <ColumnConstraints maxWidth="254.0" minWidth="10.0" prefWidth="252.0" />
+      <ColumnConstraints />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <children>
+      <Label text="Créer nouvelle sous-catégorie" GridPane.columnSpan="4">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label text="Libellé" GridPane.rowIndex="1" />
+      <JFXTextField fx:id="subCategoryLabelTextField" promptText="libellé" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+      </JFXTextField>
+      
+      <Label text="Catégorie associée" GridPane.rowIndex="2" />
+      <JFXComboBox fx:id="categoryComboBox" prefHeight="25.0" prefWidth="248.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+      </JFXComboBox>
+      
+      <JFXButton fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Enregistrer" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3"
+      		onAction="#saveButton_onActionHandler">
+         <GridPane.margin>
+            <Insets left="5.0" top="10.0" />
+         </GridPane.margin>
+      </JFXButton>
+         
+      <Label text="Sous-catégories existantes" GridPane.columnSpan="4" GridPane.rowIndex="5">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <DeletableTableView fx:id="subCategoryList" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS" onMouseClicked="#subCategoryList_onClickHandler"/>
+      <Label fx:id="errorLabel" textFill="#8d0909" GridPane.columnSpan="4" GridPane.rowIndex="4" />
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>

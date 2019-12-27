@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+<?import fr.coward.main.ui.components.NumericField?>
+<?import fr.coward.main.ui.components.DeletableListView?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+
+<GridPane fx:id="gridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.coward.main.ui.navigate.classification.ClassificationRulesController">
+  <columnConstraints>
+    <ColumnConstraints minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+	<RowConstraints minHeight="10.0" prefHeight="30.0" />
+	<RowConstraints minHeight="10.0" prefHeight="30.0" />
+	<RowConstraints minHeight="10.0" prefHeight="30.0" />
+	<RowConstraints minHeight="10.0" prefHeight="100.0" />
+	<RowConstraints minHeight="10.0" prefHeight="30.0" />
+	<RowConstraints minHeight="10.0" prefHeight="30.0" />
+	<RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="Créer nouvelle règle">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      
+      <Label text="Priorité" GridPane.rowIndex="1" />
+      <NumericField fx:id="priorityNumericField" maxWidth="100" prefWidth="100" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      
+      <Label text="Sous-catégorie résultante" GridPane.rowIndex="5">
+         <padding>
+            <Insets right="5.0" />
+         </padding></Label>
+      <JFXComboBox fx:id="subCategoryComboBox" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      
+      <Label text="Opérateur" GridPane.rowIndex="2" />
+      <JFXComboBox fx:id="operatorComboBox" GridPane.columnIndex="1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" />
+      
+      <Label text="Critères" GridPane.rowIndex="3" />
+      <JFXComboBox fx:id="criteriaComboBox" GridPane.columnIndex="1" GridPane.rowIndex="3" onAction="#criteriaComboBox_onActionHandler">
+         <GridPane.margin>
+         	<Insets right="5.0" />
+         </GridPane.margin>
+      </JFXComboBox>
+      
+      <JFXButton fx:id="addCriteriaRuleButton" mnemonicParsing="false" text="Ajouter" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="3" 
+      			onAction="#addCriteriaRuleButton_onActionHandler">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+      </JFXButton>
+      
+      <Label fx:id="errorLabel" textFill="#8d0909" GridPane.columnSpan="4" GridPane.rowIndex="7" />
+      
+      <DeletableListView fx:id="criteriaList" GridPane.columnSpan="4" GridPane.rowIndex="4" onMouseClicked="#criteriaList_onClickHandler" />
+      
+      <JFXButton fx:id="saveButton" alignment="TOP_CENTER" mnemonicParsing="false" text="Enregistrer" GridPane.columnIndex="1" GridPane.rowIndex="6" onAction="#saveButton_onActionHandler" />
+      
+      <Label text="Règles existantes" GridPane.rowIndex="8">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <DeletableListView fx:id="existingRulesList" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="9" onMouseClicked="#existingRulesList_onClickHandler" />
+      
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>

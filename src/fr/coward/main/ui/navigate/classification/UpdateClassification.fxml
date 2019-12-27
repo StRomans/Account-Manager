@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import fr.coward.main.ui.components.DeletableListView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TableView?>
+
+
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+			fx:controller="fr.coward.main.ui.navigate.classification.UpdateClassificationController">
+ <rowConstraints>
+      <RowConstraints minHeight="30.0" prefHeight="30.0" />
+      <RowConstraints minHeight="30.0" prefHeight="30.0" />
+      <RowConstraints minHeight="30.0" prefHeight="30.0" />
+      <RowConstraints minHeight="30.0" prefHeight="30.0" />
+      <RowConstraints minHeight="30.0" prefHeight="30.0" />
+      <RowConstraints minHeight="30.0" prefHeight="30.0" />
+      <RowConstraints minHeight="30.0" prefHeight="30.0" />
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints minWidth="10.0" />
+      <ColumnConstraints minWidth="10.0" />
+      <ColumnConstraints minWidth="10.0"/>
+      <ColumnConstraints minWidth="10.0"/>
+      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+
+   <children>
+      <Label text="Editer ancienne entrée" GridPane.columnSpan="4">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      
+      <!-- ZONE DE RECHERCHE  -->
+      
+      <Label text="Compte" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+	  <JFXComboBox fx:id="accountComboBox" GridPane.rowIndex="1" GridPane.columnIndex="2">
+	  	<GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+	  </JFXComboBox>
+	  
+	  <Label text="Date début" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+	  <JFXDatePicker fx:id="transactionStartDatePicker" promptText="Date début" GridPane.rowIndex="2" GridPane.columnIndex="2" >
+	  	<GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+	  </JFXDatePicker>
+	  <Label text="Date fin" GridPane.rowIndex="2" GridPane.columnIndex="3" >
+	  	<GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+	  </Label>
+	  <JFXDatePicker fx:id="transactionEndDatePicker" promptText="Date fin" GridPane.rowIndex="2" GridPane.columnIndex="4" >
+	  	<GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+	  </JFXDatePicker>
+	  
+	  <Label text="Libellé" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+      <JFXTextField fx:id="transactionLabelTextField" promptText="Tout ou partie du libellé" GridPane.rowIndex="3" GridPane.columnIndex="2" >
+         <GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+      </JFXTextField>
+	  
+	  <Label text="Catégorie" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+      <JFXComboBox fx:id="categoryComboBox" GridPane.rowIndex="4" GridPane.columnIndex="2" >
+      	<GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+      </JFXComboBox>
+	  
+	  <Label text="Sous-catégorie" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+      <JFXComboBox fx:id="subCategoryComboBox" GridPane.rowIndex="5" GridPane.columnIndex="2" >
+      	<GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+      </JFXComboBox>
+      
+      <JFXButton fx:id="searchTransactionButton" styleClass="greenButton" mnemonicParsing="false" text="Rechercher" GridPane.rowIndex="6" GridPane.columnIndex="1" 
+      				onAction="#searchTransactionButton_onActionHandler" />
+      <JFXButton fx:id="clearTransactionButton" styleClass="redButton" mnemonicParsing="false" text="Effacer" GridPane.rowIndex="6" GridPane.columnIndex="2" 
+      				onAction="#clearTransactionButton_onActionHandler" >
+      	<GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+      </JFXButton>
+      
+      <!-- ZONE DE RESULTATS -->
+      <HBox fx:id="resultHbox" GridPane.rowIndex="7" GridPane.columnIndex="1" GridPane.columnSpan="4">
+      	<GridPane.margin>
+            <Insets top="20.0" />
+         </GridPane.margin>
+      	<Label fx:id="resultCountLabel" >
+      		<font>
+            	<Font name="System Bold" size="14.0" />
+         	</font>
+      	</Label>
+      	<Label text=" transaction(s) trouvée(s)">
+      		<font>
+            	<Font name="System Bold" size="14.0" />
+         	</font>
+      	</Label>
+      </HBox>
+      
+      <TableView fx:id="transactionDtoTableView" GridPane.rowIndex="8" GridPane.columnSpan="5" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS">
+      	<GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </TableView>
+   </children>
+   
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>

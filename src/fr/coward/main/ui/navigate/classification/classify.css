@@ -1,0 +1,27 @@
+/* JavaFX CSS - Leave this comment until you have at least created one rule which uses -fx-Property */
+
+.list-view:focused {
+    -fx-background-color: -fx-focus-color,-fx-box-border,-fx-control-inner-background;
+    -fx-background-insets: -1.4, 0, 1;
+    -fx-background-radius: 1.4, 0, 0;
+
+    /* There is some oddness if padding is in em values rather than pixels,
+       in particular, the left border of the control doesn't show. */
+    -fx-padding: 1; /* 0.083333em; */
+}
+
+.unfocusable .list-cell:focused:selected {
+    
+    -fx-background-color: -fx-focus-color,-fx-control-inner-background;
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-cell-size: 2.0em; /* 24 */
+    -fx-opacity: 1;
+}
+
+#applyRulesButton {
+	/*-fx-background-color: rgb(204,255,153);*/
+	/*-fx-background-color: rgb(255,255,153);*/
+	/* 	-fx-background-color: #32CD32;
+	-fx-text-fill: BLACK; */
+	
+}

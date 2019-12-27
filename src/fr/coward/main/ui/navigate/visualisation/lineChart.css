@@ -1,0 +1,23 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.chart-series-line {    
+    -fx-stroke-width: 1px;
+    -fx-effect: null;
+}
+
+.axis {
+    -fx-tick-label-fill: #000000;
+	-fx-tick-label-font-size: 1em;
+}
+ 
+.default-color0.chart-series-line { -fx-stroke: #cc443d; }
+.default-color1.chart-series-line { -fx-stroke: #57B757; }
+.default-color2.chart-series-line { -fx-stroke: #fbc93d; }
+ 
+.default-color0.chart-line-symbol { -fx-background-color: #cc443d, white; }
+.default-color1.chart-line-symbol { -fx-background-color: #57B757, white; }
+.default-color2.chart-line-symbol { -fx-background-color: #fbc93d, white; }
+
+#totalSavingsLabel {
+	-fx-text-fill: #ff9b00;
+}

@@ -1,0 +1,10 @@
+/* none */
+
+JFXButton{
+    -fx-background-color: rgb(204,229,255);
+}
+
+.cell-button{
+	-fx-background-color: rgb(192,192,192);
+    -fx-text-fill: WHITE;
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import fr.coward.main.ui.components.PeriodSelector?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import com.jfoenix.controls.JFXComboBox?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="fr.coward.main.ui.navigate.visualisation.CategoryEvolutionStatisticsController"
+	stylesheets="@/fr/coward/main/ui/navigate/visualisation/lineChart.css">
+
+	<children>
+		<HBox spacing="10.0">
+			<children>
+				<Label text="Compte">
+					<HBox.margin>
+						<Insets top="3" />
+					</HBox.margin>
+					<font>
+						<Font name="System Bold" size="14.0" />
+					</font>
+				</Label>
+				<JFXComboBox fx:id="accountComboBox" />
+
+				<PeriodSelector fx:id="periodSelector" spacing="10">
+					<HBox.margin>
+						<Insets left="50" />
+					</HBox.margin>
+				</PeriodSelector>
+			</children>
+		</HBox>
+
+		<LineChart fx:id="categoryLineChart" VBox.vgrow="ALWAYS" title="Evolution des dépenses par catégorie" animated="false" >
+			<xAxis>
+				<CategoryAxis autoRanging="true" side="BOTTOM" />
+			</xAxis>
+			<yAxis>
+				<NumberAxis autoRanging="true" side="LEFT" label="Montant" />
+			</yAxis>
+			<VBox.margin>
+				<Insets top="10.0" />
+			</VBox.margin>
+		</LineChart>
+
+	</children>
+
+	<padding>
+		<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+	</padding>
+
+</VBox>

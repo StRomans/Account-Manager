@@ -1,0 +1,108 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+*:focused {
+  -fx-focus-color: transparent;
+}
+
+.combo-box-base:disabled {
+    -fx-opacity: 1;
+}
+
+Hyperlink:visited{
+	-fx-font-size: 12px;
+	-fx-text-fill: #029eca;
+	-fx-font-weight: bold;
+}
+
+JFXButton{
+    -jfx-button-type: RAISED;
+    -fx-font-weight: bold;
+}
+
+ListView, #navigationBox,.list-view,.combo-box-popup, LineChart {
+	-fx-selection-bar: #004C99;
+}
+
+.combo-box-popup .list-cell:hover {
+	-fx-selection-bar: #004C99;
+	-fx-font-weight: bold;
+}
+
+/* couleur de fond des tableaux (hors compte / classification des transactions) */
+ListView .cell:selected {
+	-fx-selection-bar: #004C99;
+}
+
+.combo-box-popup .cell:selected {
+	/*-fx-background-color: #D1F4FF;
+	-fx-text-fill: BLACK;*/
+	-fx-background-color: #004C99;
+}
+
+.table-row-cell {
+    /*-fx-cell-size: 50px;*/
+    -fx-alignment: CENTER-RIGHT;
+}
+
+.table-column {
+	-fx-alignment: CENTER-LEFT;
+}
+
+.transparent {
+	-fx-background-color: transparent;
+}
+
+.transparent:hover{
+	-fx-border-color: transparent, black;
+    -fx-border-width: 0.5, 0.5;
+    -fx-border-style: solid, segments(1, 2);
+    -fx-border-insets: 0 0 0 0, 0;
+    -fx-padding: 3 7 3 7;
+    -fx-background-insets: 0;
+}
+
+.customToolTip{
+	-fx-border-color: transparent, black;
+    -fx-border-width: 0.5, 0.5;
+    -fx-border-style: solid, segments(1, 2);
+    -fx-border-insets: 0 0 0 0, 0;
+    -fx-background-insets: 0;
+    -fx-background-color: WHITE;
+    -fx-text-fill: BLACK;
+    -fx-padding: 5 5 5 5;
+    -fx-font-size: 10; 
+    -fx-font-weight: bold;
+}
+
+.bottom-line {
+	-fx-border-color: black; 
+	-fx-border-width: 0 0 0.5 0;
+}
+
+/*
+.data0.chart-pie {-fx-pie-color:#e53935;}
+.data1.chart-pie {-fx-pie-color:#8e24aa;}
+.data2.chart-pie {-fx-pie-color:#3949ab;}
+.data3.chart-pie {-fx-pie-color:#039be5;}
+.data4.chart-pie {-fx-pie-color:#00897b;}
+.data5.chart-pie {-fx-pie-color:#7cb342;}
+.data6.chart-pie {-fx-pie-color:#c0ca33;}
+.data7.chart-pie {-fx-pie-color:#ffb300;}
+.data8.chart-pie {-fx-pie-color:#f4511e;}
+.data9.chart-pie {-fx-pie-color:#757575;}
+*/
+
+/*
+.data0.chart-pie {-fx-pie-color:#ff5235;}
+.data1.chart-pie {-fx-pie-color:#ffad17;}
+.data2.chart-pie {-fx-pie-color:#cbe106;}
+.data3.chart-pie {-fx-pie-color:#fcd89b;}
+.data4.chart-pie {-fx-pie-color:#7bb1f0;}
+.data5.chart-pie {-fx-pie-color:#a437db;}
+.data6.chart-pie {-fx-pie-color:#ff43ac;}
+.data7.chart-pie {-fx-pie-color:#b81515;}
+.data8.chart-pie {-fx-pie-color:#cf8627;}
+.data9.chart-pie {-fx-pie-color:#9ed767;}
+.data10.chart-pie {-fx-pie-color:#3aadb8;}
+.data11.chart-pie {-fx-pie-color:#0e3ede;}
+*/
